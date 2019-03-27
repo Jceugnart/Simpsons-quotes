@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Quotes from "./Quotes";
+import Lamp from "./lamp";
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      true: props.true,
+      message : props.true
+    };
+  }
+  handleClick = () => {
+    this.setState({ true: !this.state.true});
+  };
   render() {
+    const workingHommer = this.state.true ? 'App-logo' : 'App-logo-off';
+    const message = this.state.true ? 'Hommer travail' : 'Hommer ne travail pas !'
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+          <img src={logo} className = {workingHommer} alt="logo" />
+          <div className="Working">
+          <button 
+          onClick={this.handleClick}
+          className = "bouton"
           >
-            Learn React
-          </a>
+          {message.toUpperCase()}
+          </button>
+          <figure className={workingHommer} />
+      </div>
+            <Lamp on />
+            <Lamp />
+            <Quotes />
         </header>
       </div>
     );
   }
 }
-
 export default App;
