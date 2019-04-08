@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Quotes from "./Quotes";
-import Lamp from "./lamp";
+import GenerateQuotes from './coponents/GenerateQuotes';
+import SimpsonsQuote from './coponents/SimpsonsQuote';
 
+const quoteInfos = 
+  {
+   quote: "Shoplifting is a victimless crime, like punching someone in the dark.",
+   character: "Nelson Muntz",
+   image : 'https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FAbrahamSimpson.png',
+   characterDirection : "Left"
+  }
+;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      true: props.true,
-      message : props.true
+      quote: quoteInfos
     };
   }
-  handleClick = () => {
-    this.setState({ true: !this.state.true});
-  };
+  
+  getQuotes(){
+    fetch("https://thesimpsonsquoteapi.glitch.me/quotes?count=5")
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        quote: data[0],
+      });
+    });
+  }
   render() {
-    const workingHommer = this.state.true ? 'App-logo' : 'App-logo-off';
-    const message = this.state.true ? 'Hommer travail' : 'Hommer ne travail pas !'
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className = {workingHommer} alt="logo" />
-          <div className="Working">
-          <button 
-          onClick={this.handleClick}
-          className = "bouton"
-          >
-          {message.toUpperCase()}
-          </button>
-          <figure className={workingHommer} />
-      </div>
-            <Lamp on />
-            <Lamp />
-            <Quotes />
-        </header>
+       <SimpsonsQuote quote={this.state.quote} />
+       <GenerateQuotes selectQuotes={() => this.getQuotes()} />
       </div>
     );
   }
